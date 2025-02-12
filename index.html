@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +22,7 @@
 
         /* En-tête */
         header {
-            background-color: #253938; 
+            background-color: #253938;
             color: #fff;
             padding: 20px 0;
             text-align: center;
@@ -57,7 +58,8 @@
 
         #search-button {
             padding: 10px 20px;
-            background-color: #004a99; /* Bleu foncé */
+            background-color: #004a99;
+            /* Bleu foncé */
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -66,7 +68,8 @@
         }
 
         #search-button:hover {
-            background-color: #003366; /* Bleu plus foncé au survol */
+            background-color: #003366;
+            /* Bleu plus foncé au survol */
         }
 
         /* Légende */
@@ -129,7 +132,7 @@
 
         /* Pied de page */
         footer {
-            background-color: #253938; 
+            background-color: #253938;
             color: #fff;
             text-align: center;
             padding: 20px 0;
@@ -141,6 +144,7 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Carte des Zones de productions de votre électricité</h1>
@@ -168,9 +172,26 @@
     </footer>
 
     <script>
-        import jsonData from 'https://github.com/LudovicZ37/google-maps-kmz/blob/main/Config.json' assert { type: 'json' };
-         console.log("read json");
-        console.log(jsonData);
+        const url = 'https://raw.githubusercontent.com/LudovicZ37/google-maps-kmz/main/Config.json';
+        let jsonData = {};
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération du fichier JSON');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Données JSON lues :", data);
+                jsonData = data;
+
+                // Appeler une fonction ou exécuter du code qui utilise jsonData ici
+                utiliserJsonData(jsonData);
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
         // Définir les icônes avant leur utilisation
         let windTurbineIcon, hydroIcon;
 
@@ -378,7 +399,7 @@
         // Charger l'API Google Maps de manière asynchrone
         function loadGoogleMapsAPI() {
             const script = document.createElement('script');
-            script.src = jsonData['key'];
+            script.src = jsonData['key']; //'https://maps.googleapis.com/maps/api/js?key=AIzaSyAh0-esPw4Eqhm_4SB5CoQmmFFjoO0HCBQ&libraries=places,geometry&callback=initMap';
             script.async = true;
             document.head.appendChild(script);
         }
@@ -387,5 +408,5 @@
         loadGoogleMapsAPI();
     </script>
 </body>
-</html>
 
+</html>
